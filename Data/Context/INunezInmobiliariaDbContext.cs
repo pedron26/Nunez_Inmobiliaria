@@ -9,5 +9,6 @@ namespace Nuñez_Inmobiliaria.Data.Context
 
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        
     }
 }
