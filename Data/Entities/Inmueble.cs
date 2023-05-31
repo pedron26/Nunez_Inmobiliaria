@@ -12,5 +12,6 @@ namespace Nuñez_Inmobiliaria.Data.Entities
         public string Direccion { get; set; } = null!;
         public decimal PrecioAlquiler { get; set; }
         public InmuebleTipo InmuebleTipo { get; set; } = null!;
+
     }
 }

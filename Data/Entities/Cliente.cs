@@ -25,7 +25,6 @@ namespace Nuñez_Inmobiliaria.Data.Entities
             throw new NotImplementedException();
         }
 
-
         internal ClienteResponse ToResponse()
             => new()
             {

@@ -10,3 +10,4 @@ public class Pago
     public DateTime Fecha { get; set; }
     public Alquiler Alquiler { get; set; } = null!;
 }
+

@@ -17,4 +17,5 @@ public class Alquiler
     public Inmueble Inmueble { get; set; } = null!;
     public TipoPago TipoPago { get; set; } = null!;
     public ICollection<Pago> Pagos { get; set; } = null!;
+
 }
