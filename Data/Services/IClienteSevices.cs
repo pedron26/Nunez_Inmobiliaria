@@ -9,5 +9,6 @@ namespace Nuñez_Inmobiliaria.Data.Services
         Task<Result> Crear(ClienteRequest request);
         Task<Result> Eliminar(ClienteRequest request);
         Task<Result> Modificar(ClienteRequest request);
+
     }
 }

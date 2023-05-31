@@ -9,7 +9,7 @@ using Nuñez_Inmobiliaria.Data.Response;
 using System.Collections.Immutable;
 
 namespace Nuñez_Inmobiliaria.Data.Services
-{
+{ 
     public class Result
     {
         public bool Success { get; set; }
