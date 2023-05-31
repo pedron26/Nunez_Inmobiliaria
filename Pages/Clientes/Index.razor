@@ -15,15 +15,15 @@
                <label class="input-group-text">Nombre</label>
                <InputText  class="form-control" @bind-Value="@request.Nombre"></InputText>
            </div>
-            <div class="mb-3">
+            <div class="mb-3 input-group">
                 <label class="input-group-text">Cedula</label>
                 <InputText   class="form-control"@bind-Value="@request.Cedula"></InputText>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 input-group">
                 <label class ="input-group-text">Telefono</label>
                 <InputText class="form-control" @bind-Value="@request.Telefono"></InputText>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 input-group">
                 <label class ="input-group-text">Direccion</label>
                 <InputText class="form-control" @bind-Value="@request.Direccion"></InputText>
             </div>
@@ -67,6 +67,7 @@
         {
             Clientes = resultado.Data!;
         }
+
 
     }
 
