@@ -10,6 +10,5 @@ namespace Nuñez_Inmobiliaria.Data.Request
         public string? Direccion { get; set; } 
         public string? Telefono { get; set; } 
 
-
     }
 }

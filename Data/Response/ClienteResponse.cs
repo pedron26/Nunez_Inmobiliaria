@@ -23,6 +23,5 @@ namespace Nuñez_Inmobiliaria.Data.Response
             };
         }
 
-
     }
 }
