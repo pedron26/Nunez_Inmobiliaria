@@ -1,38 +1,37 @@
 ﻿@page "/clientes"
 <h3>Clientes (@Clientes.Count)</h3>
 <div class="mb-2">
-    <button 
-        class="btn btn-success"
-        @onclick="()=>{ShowForm = !ShowForm;}">
+    <button class="btn btn-success"
+    @onclick="()=>{ShowForm = !ShowForm;}">
         Agregar
     </button>
 </div>
 <div class="container">
-    @if(ShowForm)
+    @if (ShowForm)
     {
         <EditForm Model="request" OnValidSubmit="Send">
-           <div class="mb-3 input-group">
-               <label class="input-group-text">Nombre</label>
-               <InputText  class="form-control" @bind-Value="@request.Nombre"></InputText>
-           </div>
             <div class="mb-3 input-group">
-                <label class="input-group-text">Cedula</label>
-                <InputText   class="form-control"@bind-Value="@request.Cedula"></InputText>
+                <label class="input-group-text">Nombre</label>
+                <InputText class="form-control" @bind-Value="@request.Nombre"></InputText>
             </div>
             <div class="mb-3 input-group">
-                <label class ="input-group-text">Telefono</label>
+                <label class="input-group-text">Cedula</label>
+                <InputText class="form-control" @bind-Value="@request.Cedula"></InputText>
+            </div>
+            <div class="mb-3 input-group">
+                <label class="input-group-text">Telefono</label>
                 <InputText class="form-control" @bind-Value="@request.Telefono"></InputText>
             </div>
             <div class="mb-3 input-group">
-                <label class ="input-group-text">Direccion</label>
+                <label class="input-group-text">Direccion</label>
                 <InputText class="form-control" @bind-Value="@request.Direccion"></InputText>
             </div>
         </EditForm>
-        <br/>
+        <br />
     }
-    @foreach(var cliente in Clientes)
+    @foreach (var cliente in Clientes)
     {
-        <div class="card"style="width:18rem;">
+        <div class="card" style="width:18rem;">
             <div class="card-body">
                 <label class="card-title">@cliente.Nombre</label>
                 <div class="card-text">
@@ -40,7 +39,6 @@
                 </div>
                 <button class="btn btn-warning">Editar</button>
                 <button class="btn btn-danger">Eliminar</button>
-
             </div>
         </div>
     }
@@ -63,7 +61,7 @@
     async Task CargarClientes()
     {
         var resultado = await ClienteServices.Consultar(Filtro);
-        if(resultado.Success)
+        if (resultado.Success)
         {
             Clientes = resultado.Data!;
         }
@@ -71,18 +69,18 @@
 
     }
 
-    protected override  async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         await CargarClientes();
     }
 
     public async Task Send()
-    {  
-        if(request.Id == 0)
+    {
+        if (request.Id == 0)
         {
-            //Debo registrar el clientereturn 
+            //Debo registrar el clientereturn
             var r = await ClienteServices.Crear(request);
-            if(r.Success)
+            if (r.Success)
             {
                 Cancelar();
                 await CargarClientes();
@@ -107,7 +105,7 @@
     {
         ShowForm = showForm;
         request = Clientes
-       .Where(c => c.Id == Id).Select(c => c.ToRequest()).FirstOrDefault()?? new ClienteRequest();
+       .Where(c => c.Id == Id).Select(c => c.ToRequest()).FirstOrDefault() ?? new ClienteRequest();
     }
 
     public async Task Eliminar(ClienteResponse cliente)
@@ -121,3 +119,4 @@
     }
 
 }
+
