@@ -12,7 +12,8 @@ namespace Nuñez_Inmobiliaria.Data.Context
             this.config = config;
         }
         public DbSet<Cliente> Clientes { get; set; }
-       
+        public DbSet<Alquiler> Alquileres { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(connectionString: config.GetConnectionString("MSSQL"));
