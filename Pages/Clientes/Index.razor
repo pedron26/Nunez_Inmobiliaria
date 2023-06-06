@@ -37,8 +37,8 @@
                 <div class="card-text">
                     <label><b>Telefono:</b>@cliente.Telefono</label>
                 </div>
-                <button class="btn btn-warning">Editar</button>
-                <button class="btn btn-danger">Eliminar</button>
+                <button @onclick="()=>Editar(cliente)" class="btn btn-warning">Editar</button>
+                <button @onclick="()=>Eliminar(cliente)" class="btn btn-danger">Eliminar</button>
             </div>
         </div>
     }
