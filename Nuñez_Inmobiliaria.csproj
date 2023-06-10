@@ -17,11 +17,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Inmueble\" />
-    <Folder Include="Pages\InmuebleTipo\" />
-    <Folder Include="Pages\TipoPago\" />
-    <Folder Include="Pages\Pago\" />
-  </ItemGroup>
-
 </Project>
