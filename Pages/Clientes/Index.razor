@@ -9,6 +9,7 @@
 <div class="container">
     @if (ShowForm)
     {
+        <h3>@TituloForm</h3>
         <EditForm Model="request" OnValidSubmit="Send">
             <div class="mb-3 input-group">
                 <label class="input-group-text">Nombre</label>
@@ -26,6 +27,10 @@
                 <label class="input-group-text">Direccion</label>
                 <InputText class="form-control" @bind-Value="@request.Direccion"></InputText>
             </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-outline-success">Guardar</button>
+                <button @onclick="Cancelar" class="btn btn-outline-danger">Cancelar</button>
+            </div>
         </EditForm>
         <br />
     }
@@ -37,7 +42,7 @@
                 <div class="card-text">
                     <label><b>Telefono:</b>@cliente.Telefono</label>
                 </div>
-                <button @onclick="()=>Editar(cliente)" class="btn btn-warning">Editar</button>
+                <button @onclick="()=>Seleccionar(cliente.Id)" class="btn btn-warning">Editar</button>
                 <button @onclick="()=>Eliminar(cliente)" class="btn btn-danger">Eliminar</button>
             </div>
         </div>
@@ -45,6 +50,8 @@
 </div>
 
 @code {
+    public string TituloForm => request.Id == 0 ?
+      "Agregar cliente" : "Modificar cliente";
     public bool ShowForm { get; set; } = false;
     public string Filtro { get; set; } = "";
     public List<ClienteResponse> Clientes { get; set; }
