@@ -1,4 +1,6 @@
-﻿namespace Nuñez_Inmobiliaria.Data.Response
+﻿using Nuñez_Inmobiliaria.Data.Request;
+
+namespace Nuñez_Inmobiliaria.Data.Response
 {
     public class AlquilerResponse
     {
