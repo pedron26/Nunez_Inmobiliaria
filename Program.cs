@@ -14,6 +14,8 @@ builder.Services.AddDbContext<NunezInmobiliariaDbContext>();
 builder.Services.AddScoped<INunezInmobiliariaDbContext, NunezInmobiliariaDbContext>();
 builder.Services.AddScoped<IClienteSevices, ClienteSevices>();
 builder.Services.AddScoped<IAlquilerServices, AlquilerServices>();
+builder.Services.AddScoped<IInmuebleServices, InmuebleServices>();
+
 
 
 var app = builder.Build();

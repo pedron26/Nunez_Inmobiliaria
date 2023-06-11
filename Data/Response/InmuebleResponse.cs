@@ -1,4 +1,6 @@
-﻿namespace Nuñez_Inmobiliaria.Data.Response
+﻿using Nuñez_Inmobiliaria.Data.Request;
+
+namespace Nuñez_Inmobiliaria.Data.Response
 {
     public class InmuebleResponse
     {
@@ -8,6 +10,17 @@
         public string? Direccion { get; set; }
         public decimal PrecioAlquiler { get; set; }
         public InmuebleTipoResponse? InmuebleTipo { get; set; }
-    }
 
-}
+        public InmuebleRequest ToRequest()
+        {
+            return new InmuebleRequest
+            {
+                Id = Id,
+                Descripcion = Descripcion,
+                InmuebleTipoId = InmuebleTipoId,
+                Direccion = Direccion,
+                PrecioAlquiler = PrecioAlquiler,
+
+            };
+
+} }     } 

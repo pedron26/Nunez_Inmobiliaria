@@ -1,6 +1,11 @@
-﻿namespace Nuñez_Inmobiliaria.Data.Services
+﻿using Nuñez_Inmobiliaria.Data.Entities;
+
+namespace Nuñez_Inmobiliaria.Data.Services
 {
-    public class InmuebleServices
+    public class InmuebleServices : IInmuebleServices
     {
     }
-}
+
+    
+}    
+
