@@ -13,6 +13,8 @@ namespace Nuñez_Inmobiliaria.Data.Context
         }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Alquiler> Alquileres { get; set; }
+        public DbSet<Inmueble> Inmuebles { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
