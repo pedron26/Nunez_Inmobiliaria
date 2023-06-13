@@ -1,64 +1,196 @@
 ﻿@page "/alquileres"
+@inject IAlquilerServices AlquilerServices
+
 <h3>Alquileres</h3>
 
+<div class="mb-2">
+    <button class="btn btn-success" @onclick="MostrarFormulario">
+        Agregar
+    </button>
+</div>
+
 <div class="container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cliente ID</th>
-                <th>Inmueble ID</th>
-                <th>Tipo de Pago ID</th>
-                <th>Fecha</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Culminación</th>
-                <th>Fecha de Pago</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var alquiler in Alquileres!)
-            {
-                <tr>
-                    <td>@alquiler.Id</td>
-                    <td>@alquiler.ClienteId</td>
-                    <td>@alquiler.InmuebleId</td>
-                    <td>@alquiler.TipoPagoId</td>
-                    <td>@alquiler.Fecha</td>
-                    <td>@alquiler.FechaInicio</td>
-                    <td>@alquiler.FechaCulminacion</td>
-                    <td>@alquiler.FechaDePago</td>
-                </tr>
-            }
-         
-        </tbody>
-    </table>
+    @if (MostrarForm)
+    {
+        <h3>@TituloFormulario</h3>
+        <EditForm Model="alquilerRequest" OnValidSubmit="Enviar">
+            <div class="mb-3">
+                <label>Cliente:</label>
+                <select class="form-control" @bind="@alquilerRequest.ClienteId">
+                    @foreach (var cliente in Clientes)
+                    {
+                        <option value="@cliente.Id">@cliente.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Inmueble:</label>
+                <select class="form-control" @bind="@alquilerRequest.InmuebleId">
+                    @foreach (var inmueble in Inmuebles)
+                    {
+                        <option value="@inmueble.Id">@inmueble.Descripcion</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Tipo de Pago:</label>
+                <select class="form-control" @bind="@alquilerRequest.TipoPagoId">
+                    @foreach (var tipoPago in TiposPago)
+                    {
+                        <option value="@tipoPago.Id">@tipoPago.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Fecha:</label>
+                <InputDate class="form-control" @bind-Value="@alquilerRequest.Fecha"></InputDate>
+            </div>
+            <div class="mb-3">
+                <label>Fecha de Inicio:</label>
+                <InputDate class="form-control" @bind-Value="@alquilerRequest.FechaInicio"></InputDate>
+            </div>
+            <div class="mb-3">
+                <label>Fecha de Culminación:</label>
+                <InputDate class="form-control" @bind-Value="@alquilerRequest.FechaCulminacion"></InputDate>
+            </div>
+            <div class="mb-3">
+                <label>Fecha de Pago:</label>
+                <InputDate class="form-control" @bind-Value="@alquilerRequest.FechaDePago"></InputDate>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-outline-success">Guardar</button>
+                <button @onclick="Cancelar" class="btn btn-outline-danger">Cancelar</button>
+            </div>
+        </EditForm>
+        <br />
+    }
+
+    @foreach (var alquiler in Alquileres)
+    {
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@alquiler.Cliente?.Nombre</h5>
+                <p class="card-text">
+                    <b>Inmueble:</b> @alquiler.Inmueble?.Descripcion <br />
+                    <b>Tipo de Pago:</b> @alquiler.TipoPago?.Nombre <br />
+                    <b>Fecha:</b> @alquiler.Fecha.ToShortDateString() <br />
+                    <b>Fecha de Inicio:</b> @alquiler.FechaInicio.ToShortDateString() <br />
+                    <b>Fecha de Culminación:</b> @alquiler.FechaCulminacion.ToShortDateString() <br />
+                    <b>Fecha de Pago:</b> @alquiler.FechaDePago.ToShortDateString() <br />
+                </p>
+                <button @onclick="()=>Seleccionar(alquiler.Id)" class="btn btn-warning">Editar</button>
+                <button @onclick="()=>Eliminar(alquiler.Id)" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    }
 </div>
 
 @code {
-    public List<Alquiler>? Alquileres { get; set; }
+    private List<AlquilerResponse> Alquileres { get; set; } = new List<AlquilerResponse>();
+    private List<ClienteResponse> Clientes { get; set; } = new List<ClienteResponse>();
+    private List<InmuebleResponse> Inmuebles { get; set; } = new List<InmuebleResponse>();
+    private List<TipoPagoResponse> TiposPago { get; set; } = new List<TipoPagoResponse>();
+    private AlquilerRequest alquilerRequest = new AlquilerRequest();
+    private bool MostrarForm { get; set; } = false;
+    private string TituloFormulario => alquilerRequest.Id == 0 ? "Agregar alquiler" : "Modificar alquiler";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        
-
-        Alquileres = new List<Alquiler>()
-        {
-            new Alquiler() { Id = 1, ClienteId = 1, InmuebleId = 1, TipoPagoId = 1, Fecha = new DateTime(2023, 1, 1), FechaInicio = new DateTime(2023, 2, 1), FechaCulminacion = new DateTime(2023, 3, 1), FechaDePago = new DateTime(2023, 4, 1) },
-            new Alquiler() { Id = 2, ClienteId = 2, InmuebleId = 2, TipoPagoId = 2, Fecha = new DateTime(2023, 2, 1), FechaInicio = new DateTime(2023, 3, 1), FechaCulminacion = new DateTime(2023, 4, 1), FechaDePago = new DateTime(2023, 5, 1) },
-            new Alquiler() { Id = 3, ClienteId = 3, InmuebleId = 3, TipoPagoId = 3, Fecha = new DateTime(2023, 3, 1), FechaInicio = new DateTime(2023, 4, 1), FechaCulminacion = new DateTime(2023, 5, 1), FechaDePago = new DateTime(2023, 6, 1) }
-        };
+        await CargarAlquileres();
+        await CargarClientes();
+        await CargarInmuebles();
+        await CargarTiposPago();
     }
 
-    public class Alquiler
+    private async Task CargarAlquileres()
     {
-        public int Id { get; set; }
-        public int ClienteId { get; set; }
-        public int InmuebleId { get; set; }
-        public int TipoPagoId { get; set; }
-        public DateTime Fecha { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public DateTime FechaCulminacion { get; set; }
-        public DateTime FechaDePago { get; set; }
+        var resultado = await AlquilerServices.ObtenerAlquileres();
+        if (resultado.Success)
+        {
+            Alquileres = resultado.Data;
+        }
+    }
+
+    private async Task CargarClientes()
+    {
+        var resultado = await AlquilerServices.ObtenerClientes();
+        if (resultado.Success)
+        {
+            Clientes = resultado.Data;
+        }
+    }
+
+    private async Task CargarInmuebles()
+    {
+        var resultado = await AlquilerServices.ObtenerInmuebles();
+        if (resultado.Success)
+        {
+            Inmuebles = resultado.Data;
+        }
+    }
+
+    private async Task CargarTiposPago()
+    {
+        var resultado = await AlquilerServices.ObtenerTiposPago();
+        if (resultado.Success)
+        {
+            TiposPago = resultado.Data;
+        }
+    }
+
+    private void MostrarFormulario()
+    {
+        MostrarForm = true;
+        alquilerRequest = new AlquilerRequest();
+    }
+
+    private void Cancelar()
+    {
+        MostrarForm = false;
+        alquilerRequest = new AlquilerRequest();
+    }
+
+    private async Task Enviar()
+    {
+        if (alquilerRequest.Id == 0)
+        {
+            var resultado = await AlquilerServices.AgregarAlquiler(alquilerRequest);
+            if (resultado.Success)
+            {
+                Cancelar();
+                await CargarAlquileres();
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            var resultado = await AlquilerServices.ModificarAlquiler(alquilerRequest);
+            if (resultado.Success)
+            {
+                Cancelar();
+                await CargarAlquileres();
+                StateHasChanged();
+            }
+        }
+    }
+
+    private void Seleccionar(int id)
+    {
+        MostrarForm = true;
+        alquilerRequest = Alquileres.FirstOrDefault(a => a.Id == id)?.ToRequest() ?? new AlquilerRequest();
+    }
+
+    private async Task Eliminar(int id)
+    {
+      
+        
+            var resultado = await AlquilerServices.EliminarAlquiler(new AlquilerRequest { Id = id });
+            if (resultado.Success)
+            {
+                await CargarAlquileres();
+                StateHasChanged();
+            }
+        
     }
 }
 

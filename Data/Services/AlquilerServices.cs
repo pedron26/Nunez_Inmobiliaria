@@ -8,9 +8,9 @@ using System.Data.Entity;
 
 namespace Nuñez_Inmobiliaria.Data.Services
 {
-    public class AlquilerServices : IAlquilerServices 
+    public class AlquilerServices : IAlquilerServices
     {
-        
+
 
 
         private readonly INunezInmobiliariaDbContext dbContext;
@@ -99,5 +99,10 @@ namespace Nuñez_Inmobiliaria.Data.Services
                 };
             }
         }
+
+
+
+
     }
 }
+
