@@ -9,6 +9,9 @@ namespace Nuñez_Inmobiliaria.Data.Context
         public DbSet<Alquiler> Alquileres { get; set; }
         public DbSet<Inmueble> Inmuebles { get; set; }
 
+        
+
+
 
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

@@ -2,17 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Nuñez_Inmobiliaria.Data.Context;
 using Nuñez_Inmobiliaria.Data.Entities;
+using Nuñez_Inmobiliaria.Data.Request;
+using Nuñez_Inmobiliaria.Data.Response;
 using System.Data.Entity;
 
 namespace Nuñez_Inmobiliaria.Data.Services
 {
     public class AlquilerServices : IAlquilerServices 
     {
-        public class Result
-        {
-            public bool Success { get; set; }
-            public string? Message { get; set; }
-        }
+        
 
 
         private readonly INunezInmobiliariaDbContext dbContext;
@@ -22,58 +20,84 @@ namespace Nuñez_Inmobiliaria.Data.Services
             this.dbContext = dbContext;
         }
 
-        public async Task<Alquiler> ObtenerAlquiler(int id)
+        public async Task<Result> Crear(AlquilerRequest request)
         {
-
-            var alquiler = await dbContext.Alquileres.FirstOrDefaultAsync(a => a.Id == id);
-            return alquiler;
-
-        }
-
-
-
-        public async Task<List<Alquiler>> ObtenerAlquileresPorCliente(int clienteId)
-        {
-        var alquileres = await dbContext.Alquileres
-        .Where(a => a.ClienteId == clienteId)
-        .ToListAsync();
-
-        return alquileres;
-    }
-
-        public async Task CrearAlquiler(Alquiler alquiler)
-        {
-            dbContext.Alquileres.Add(alquiler);
-            await dbContext.SaveChangesAsync();
-        }
-
-        public async Task ActualizarAlquiler(Alquiler alquiler)
-        {
-            var alquilerExistente = await dbContext.Alquileres.FirstOrDefaultAsync(a => a.Id == alquiler.Id);
-
-            if (alquilerExistente != null)
+            try
             {
-                alquilerExistente.InmuebleId = alquiler.InmuebleId;
-                alquilerExistente.ClienteId = alquiler.ClienteId;
-                alquilerExistente.FechaInicio = alquiler.FechaInicio;
-                alquilerExistente.FechaCulminacion = alquiler.FechaCulminacion;
-
+                var alquiler = Alquiler.Crear(request);
+                dbContext.Alquileres.Add(alquiler);
                 await dbContext.SaveChangesAsync();
+                return new Result() { Message = "Ok", Success = true };
             }
-
-
-        }
-        public async Task EliminarAlquiler(int id)
-        {
-            var alquilerExistente = await dbContext.Alquileres.FirstOrDefaultAsync(a => a.Id == id);
-
-            if (alquilerExistente != null)
+            catch (Exception ex)
             {
-                dbContext.Alquileres.Remove(alquilerExistente);
-                await dbContext.SaveChangesAsync();
+                return new Result() { Message = ex.Message, Success = false };
             }
         }
 
+        public async Task<Result> Modificar(AlquilerRequest request)
+        {
+            try
+            {
+                var alquiler = await dbContext.Alquileres.FirstOrDefaultAsync(a => a.Id == request.Id);
+                if (alquiler == null)
+                    return new Result { Message = "No se encontró el alquiler", Success = false };
 
+                alquiler.Modificar(request);
+                await dbContext.SaveChangesAsync();
+
+                return new Result() { Message = "Ok", Success = true };
+            }
+            catch (Exception ex)
+            {
+                return new Result() { Message = ex.Message, Success = false };
+            }
+        }
+
+        public async Task<Result> Eliminar(AlquilerRequest request)
+        {
+            try
+            {
+                var alquiler = await dbContext.Alquileres.FirstOrDefaultAsync(a => a.Id == request.Id);
+                if (alquiler == null)
+                    return new Result() { Message = "No se encontró el alquiler", Success = false };
+
+                dbContext.Alquileres.Remove(alquiler);
+                await dbContext.SaveChangesAsync();
+
+                return new Result() { Message = "Ok", Success = true };
+            }
+            catch (Exception ex)
+            {
+                return new Result() { Message = ex.Message, Success = false };
+            }
+        }
+
+        public async Task<Result<List<AlquilerResponse>>> Consultar(string filtro)
+        {
+            try
+            {
+                var alquileres = await dbContext.Alquileres
+                    .Where(a => a.Cliente.Nombre.ToLower().Contains(filtro.ToLower()) ||
+                                a.Inmueble.Descripcion!.ToLower().Contains(filtro.ToLower()))
+                    .Select(a => a.ToResponse())
+                    .ToListAsync();
+
+                return new Result<List<AlquilerResponse>>()
+                {
+                    Message = "OK",
+                    Success = true,
+                    Data = alquileres
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<AlquilerResponse>>()
+                {
+                    Message = ex.Message,
+                    Success = false
+                };
+            }
+        }
     }
 }

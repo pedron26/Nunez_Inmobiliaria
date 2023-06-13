@@ -16,9 +16,10 @@ namespace Nuñez_Inmobiliaria.Data.Context
         public DbSet<Inmueble> Inmuebles { get; set; }
 
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString: config.GetConnectionString("MSSQL"));
+            optionsBuilder.UseSqlServer(config.GetConnectionString("MSSQL"));
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

@@ -4,10 +4,10 @@ namespace Nuñez_Inmobiliaria.Data.Services
 {
     public interface IInmuebleServices
     {
-        Task<List<Inmueble>> ObtenerInmuebles();
-        Task<Inmueble> ObtenerInmueblePorId(int id);
-        Task<bool> GuardarInmueble(Inmueble inmueble);
-        Task<bool> ActualizarInmueble(Inmueble inmueble);
-        Task<bool> EliminarInmueble(int id);
+        Task<List<Inmueble>> GetAllInmueblesAsync();
+        Task<Inmueble> ObtenerInmuebleByIdAsync(int id);
+        Task CrearInmuebleAsync(Inmueble inmueble);
+        Task ActualizarInmuebleAsync(Inmueble inmueble);
+        Task EliminarInmuebleAsync(int id);
     }
 }

@@ -1,6 +1,65 @@
-﻿<h3>Index</h3>
+﻿@page "/alquileres"
+<h3>Alquileres</h3>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente ID</th>
+                <th>Inmueble ID</th>
+                <th>Tipo de Pago ID</th>
+                <th>Fecha</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Culminación</th>
+                <th>Fecha de Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var alquiler in Alquileres!)
+            {
+                <tr>
+                    <td>@alquiler.Id</td>
+                    <td>@alquiler.ClienteId</td>
+                    <td>@alquiler.InmuebleId</td>
+                    <td>@alquiler.TipoPagoId</td>
+                    <td>@alquiler.Fecha</td>
+                    <td>@alquiler.FechaInicio</td>
+                    <td>@alquiler.FechaCulminacion</td>
+                    <td>@alquiler.FechaDePago</td>
+                </tr>
+            }
+         
+        </tbody>
+    </table>
+</div>
 
 @code {
+    public List<Alquiler>? Alquileres { get; set; }
 
+    protected override void OnInitialized()
+    {
+        
 
+        Alquileres = new List<Alquiler>()
+        {
+            new Alquiler() { Id = 1, ClienteId = 1, InmuebleId = 1, TipoPagoId = 1, Fecha = new DateTime(2023, 1, 1), FechaInicio = new DateTime(2023, 2, 1), FechaCulminacion = new DateTime(2023, 3, 1), FechaDePago = new DateTime(2023, 4, 1) },
+            new Alquiler() { Id = 2, ClienteId = 2, InmuebleId = 2, TipoPagoId = 2, Fecha = new DateTime(2023, 2, 1), FechaInicio = new DateTime(2023, 3, 1), FechaCulminacion = new DateTime(2023, 4, 1), FechaDePago = new DateTime(2023, 5, 1) },
+            new Alquiler() { Id = 3, ClienteId = 3, InmuebleId = 3, TipoPagoId = 3, Fecha = new DateTime(2023, 3, 1), FechaInicio = new DateTime(2023, 4, 1), FechaCulminacion = new DateTime(2023, 5, 1), FechaDePago = new DateTime(2023, 6, 1) }
+        };
+    }
+
+    public class Alquiler
+    {
+        public int Id { get; set; }
+        public int ClienteId { get; set; }
+        public int InmuebleId { get; set; }
+        public int TipoPagoId { get; set; }
+        public DateTime Fecha { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaCulminacion { get; set; }
+        public DateTime FechaDePago { get; set; }
+    }
 }
+
+
